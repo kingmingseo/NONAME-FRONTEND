@@ -10,10 +10,8 @@ interface YearSelectorProps {
   onChangeYear: (selectYear: number) => void;
 }
 
-function generateYears(baseYear: number, before: number) {
-  const startYear = baseYear - before;
-  const totalYears = before + 1;
-  return Array.from({length: totalYears}, (_, index) => startYear + index);
+function generateYears(baseYear: number, count: number) {
+  return Array.from({length: count}, (_, index) => baseYear - index);
 }
 
 const YearSelector = ({
@@ -22,7 +20,8 @@ const YearSelector = ({
   hide,
   onChangeYear,
 }: YearSelectorProps) => {
-  const years = useMemo(() => generateYears(currentYear, 10), [currentYear]);
+  // 현재 시스템 연도 기준으로 현재 포함 과거 4년까지 총 5개만 노출
+  const years = useMemo(() => generateYears(new Date().getFullYear(), 5), []);
 
   return (
     <ActionSheet isVisible={isVisible} animationType="fade" hideAction={hide}>
@@ -35,15 +34,8 @@ const YearSelector = ({
             contentContainerStyle={styles.listContent}
             data={years}
             keyExtractor={item => String(item)}
-            initialScrollIndex={Math.max(
-              years.findIndex(y => y === currentYear),
-              0,
-            )}
-            getItemLayout={(_, index) => ({
-              length: ITEM_HEIGHT,
-              offset: ITEM_HEIGHT * index,
-              index,
-            })}
+            initialNumToRender={years.length}
+            removeClippedSubviews={false}
             renderItem={({item}) => (
               <ActionSheet.Button
                 isChecked={item === currentYear}
@@ -68,5 +60,3 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
 });
-
-const ITEM_HEIGHT = 50;

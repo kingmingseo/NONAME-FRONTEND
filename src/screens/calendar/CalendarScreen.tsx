@@ -9,7 +9,7 @@ import {ScrollView, Text} from 'react-native-gesture-handler';
 import useGetCalendarPosts from '@/hooks/queries/useGetCalendarPosts';
 import Schedule from '@/components/calendar/Schedule';
 import useThemeStorage from '@/hooks/useThemeStorage';
-import { Theme } from '@/store/theme';
+import {Theme} from '@/store/theme';
 
 const CalendarScreen = () => {
   const currentMonthYear = getMonthYearDetails(new Date());
@@ -33,7 +33,9 @@ const CalendarScreen = () => {
   const renderHeaderRight = useCallback(
     () => (
       <Pressable onPress={moveToToday} style={{paddingHorizontal: 10}}>
-        <Text style={{color: colors[theme].PINK_700, fontWeight: 'bold'}}>Today</Text>
+        <Text style={{color: colors[theme].PINK_700, fontWeight: 'bold'}}>
+          Today
+        </Text>
       </Pressable>
     ),
     [moveToToday, theme],
@@ -46,7 +48,7 @@ const CalendarScreen = () => {
       initial: false,
     });
   };
-
+  console.log(posts);
   useEffect(() => {
     navigation.setOptions({
       headerRight: renderHeaderRight,

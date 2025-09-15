@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import useThemeStorage from '@/hooks/useThemeStorage';
-import { Theme } from '@/store/theme';
+import {Theme} from '@/store/theme';
 
 interface ActionSheetContextValue {
   onPressOutside?: (event: GestureResponderEvent) => void;
@@ -90,7 +90,7 @@ function Button({
 }: ButtonProps) {
   const {theme} = useThemeStorage();
   const styles = styling(theme);
-  
+
   return (
     <Pressable
       style={({pressed}) => [
@@ -112,7 +112,7 @@ function Button({
 function Title({children}: PropsWithChildren) {
   const {theme} = useThemeStorage();
   const styles = styling(theme);
-  
+
   return (
     <View style={styles.titleContainer}>
       <Text style={styles.titleText}>{children}</Text>
@@ -123,7 +123,7 @@ function Title({children}: PropsWithChildren) {
 function Divider() {
   const {theme} = useThemeStorage();
   const styles = styling(theme);
-  
+
   return <View style={styles.border} />;
 }
 interface FilterProps extends PressableProps {
@@ -134,7 +134,7 @@ interface FilterProps extends PressableProps {
 function Filter({children, isSelected, ...props}: FilterProps) {
   const {theme} = useThemeStorage();
   const styles = styling(theme);
-  
+
   return (
     <Pressable style={styles.filterContainer} {...props}>
       <Text style={isSelected ? styles.filterSelectedText : styles.filterText}>
@@ -163,7 +163,7 @@ function CheckBox({
 }: ChceckBoxProps) {
   const {theme} = useThemeStorage();
   const styles = styling(theme);
-  
+
   return (
     <Pressable
       {...props}

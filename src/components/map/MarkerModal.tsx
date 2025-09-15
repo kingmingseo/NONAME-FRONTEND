@@ -8,6 +8,8 @@ import {Text} from 'react-native-gesture-handler';
 import Ionicons from '@react-native-vector-icons/ionicons';
 import {getDateWithSeparator} from '@/utils/date';
 import {useNavigation} from '@react-navigation/native';
+import useThemeStorage from '@/hooks/useThemeStorage';
+import {Theme} from '@/store/theme';
 
 interface MarkerModalProps {
   markerId: number;
@@ -19,6 +21,8 @@ const MarkerModal = ({markerId, isVisible, hide}: MarkerModalProps) => {
   const {data: post, isPending, isError} = useGetPost(markerId);
   const baseUrl = getBaseURL();
   const navigation = useNavigation();
+  const {theme} = useThemeStorage();
+  const styles = styling(theme);
 
   if (isPending || isError) {
     return <></>;
@@ -39,16 +43,16 @@ const MarkerModal = ({markerId, isVisible, hide}: MarkerModalProps) => {
         <Pressable style={styles.cardContainer}>
           <View style={styles.cardInner}>
             <View style={styles.cardAlign}>
-              {post.imageUris.length > 0 && (
+              {post.images.length > 0 && (
                 <View style={styles.imageContainer}>
                   <Image
                     style={styles.image}
-                    source={{uri: `${baseUrl}/${post.imageUris[0]?.uri}`}}
+                    source={{uri: `${baseUrl}/${post.images[0]?.uri}`}}
                     resizeMode="cover"
                   />
                 </View>
               )}
-              {post.imageUris.length === 0 && (
+              {post.images.length === 0 && (
                 <View
                   style={[styles.imageContainer, styles.emptyImageContainer]}>
                   <Text style={styles.emptyText}>No Image</Text>
@@ -59,7 +63,7 @@ const MarkerModal = ({markerId, isVisible, hide}: MarkerModalProps) => {
                   <Ionicons
                     name="location-outline"
                     size={10}
-                    color={colors.GRAY_500}
+                    color={colors[theme].GRAY_500}
                   />
                   <Text
                     style={styles.addressText}
@@ -83,7 +87,7 @@ const MarkerModal = ({markerId, isVisible, hide}: MarkerModalProps) => {
               <Ionicons
                 name="chevron-forward"
                 size={25}
-                color={colors.BLACK}
+                color={colors[theme].BLACK}
                 onPress={handlePress}
               />
             </View>
@@ -96,78 +100,79 @@ const MarkerModal = ({markerId, isVisible, hide}: MarkerModalProps) => {
 
 export default MarkerModal;
 
-const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-    justifyContent: 'flex-end',
-  },
-  cardContainer: {
-    backgroundColor: colors.WHITE,
-    margin: 10,
-    borderWidth: 1,
-    borderColor: colors.GRAY_200,
-    borderRadius: 15,
-    boxShadow: '1px 1px 3px rbga(0,0,0,0.3)',
-    justifyContent: 'space-between',
-  },
-  cardInner: {
-    padding: 20,
-    width: '100%',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  image: {
-    width: '100%',
-    height: '100%',
-    borderRadius: 35,
-  },
-  imageContainer: {
-    width: 70,
-    height: 70,
-    borderRadius: 35,
-  },
-  emptyText: {
-    fontSize: 12,
-    color: colors.GRAY_500,
-  },
-  emptyImageContainer: {
-    justifyContent: 'center',
-    borderWidth: 1,
-    borderColor: colors.GRAY_200,
-    alignItems: 'center',
-  },
-  infoContainer: {
-    marginLeft: 15,
-    gap: 5,
-  },
-  addressText: {
-    color: colors.GRAY_500,
-    fontSize: 10,
-  },
-  cardAlign: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  addressContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 2,
-  },
-  titleText: {
-    color: colors.BLACK,
-    fontSize: 15,
-    fontWeight: 'bold',
-  },
-  dateText: {
-    fontSize: 12,
-    fontWeight: 'bold',
-    color: colors.PINK_700,
-  },
-  nextButton: {
-    width: 40,
-    height: 40,
-    alignItems: 'flex-end',
-    justifyContent: 'center',
-  },
-});
+const styling = (theme: Theme) =>
+  StyleSheet.create({
+    background: {
+      flex: 1,
+      justifyContent: 'flex-end',
+    },
+    cardContainer: {
+      backgroundColor: colors[theme].WHITE,
+      margin: 10,
+      borderWidth: 1,
+      borderColor: colors[theme].GRAY_200,
+      borderRadius: 15,
+      boxShadow: '1px 1px 3px rbga(0,0,0,0.3)',
+      justifyContent: 'space-between',
+    },
+    cardInner: {
+      padding: 20,
+      width: '100%',
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    image: {
+      width: '100%',
+      height: '100%',
+      borderRadius: 35,
+    },
+    imageContainer: {
+      width: 70,
+      height: 70,
+      borderRadius: 35,
+    },
+    emptyText: {
+      fontSize: 12,
+      color: colors[theme].GRAY_500,
+    },
+    emptyImageContainer: {
+      justifyContent: 'center',
+      borderWidth: 1,
+      borderColor: colors[theme].GRAY_200,
+      alignItems: 'center',
+    },
+    infoContainer: {
+      marginLeft: 15,
+      gap: 5,
+    },
+    addressText: {
+      color: colors[theme].GRAY_500,
+      fontSize: 10,
+    },
+    cardAlign: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    addressContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 2,
+    },
+    titleText: {
+      color: colors[theme].BLACK,
+      fontSize: 15,
+      fontWeight: 'bold',
+    },
+    dateText: {
+      fontSize: 12,
+      fontWeight: 'bold',
+      color: colors[theme].PINK_700,
+    },
+    nextButton: {
+      width: 40,
+      height: 40,
+      alignItems: 'flex-end',
+      justifyContent: 'center',
+    },
+  });
