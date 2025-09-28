@@ -11,7 +11,7 @@ const Stack = createStackNavigator();
 
 function AuthNavigation() {
   const {theme} = useThemeStorage();
-  
+
   return (
     <Stack.Navigator
       screenOptions={{
@@ -29,25 +29,25 @@ function AuthNavigation() {
           backgroundColor: colors[theme].WHITE,
         },
       }}>
-      <Stack.Screen 
-        name="AuthHome" 
+      <Stack.Screen
+        name="AuthHome"
         component={AuthHomeScreen}
-        options={{ headerShown: false }}
+        options={{headerShown: false}}
       />
-      <Stack.Screen 
-        name="Login" 
+      <Stack.Screen
+        name="Login"
         component={LoginScreen}
-        options={{ title: '로그인' }}
+        options={{title: '로그인'}}
       />
-      <Stack.Screen 
-        name="Signup" 
+      <Stack.Screen
+        name="Signup"
         component={SignupScreen}
-        options={{ title: '회원가입' }}
+        options={{title: '회원가입'}}
       />
-      <Stack.Screen 
-        name="KakaoLogin" 
+      <Stack.Screen
+        name="KakaoLogin"
         component={KakaoLoginScreen}
-        options={{ title: '카카오로그인' }}
+        options={{title: '카카오로그인'}}
       />
     </Stack.Navigator>
   );

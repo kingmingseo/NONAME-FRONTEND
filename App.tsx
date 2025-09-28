@@ -11,6 +11,7 @@ import Toast, {
   ErrorToast,
   BaseToastProps,
 } from 'react-native-toast-message';
+
 const toastConfig: Record<
   string,
   (props: BaseToastProps) => React.ReactElement

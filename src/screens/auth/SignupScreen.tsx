@@ -10,13 +10,13 @@ import Toast from 'react-native-toast-message';
 import {errorMessages} from '@/constants/message';
 import {colors} from '@/constants/colors';
 import useThemeStorage from '@/hooks/useThemeStorage';
-import { Theme } from '@/store/theme';
+import {Theme} from '@/store/theme';
 
 const SignupScreen = () => {
   const {signupMutation} = useAuth();
   const {theme} = useThemeStorage();
   const styles = styling(theme);
-  
+  console.log('render');
   const signup = useForm({
     initialValue: {
       email: '',
@@ -27,7 +27,6 @@ const SignupScreen = () => {
   });
   const handleSubmit = () => {
     const {email, password} = signup.values;
-    console.log('try');
     signupMutation.mutate(
       {email, password},
       {

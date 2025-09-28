@@ -95,3 +95,81 @@ To learn more about React Native, take a look at the following resources:
 - [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
 - [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
 - [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+
+## Architecture Overview (프로젝트 아키텍처 개요)
+
+- 스택 구성
+  - UI: React Native, React Navigation(Stack/Drawer), Gesture/Screens/SafeArea
+  - 데이터: React Query v5, Axios
+  - 네이티브: react-native-maps, image-crop-picker, permissions, bootsplash, encrypted-storage
+  - 알림/피드백: react-native-toast-message
+
+- 앱 진입/Provider
+  - index.js → App.tsx
+  - App.tsx에서 QueryClientProvider, NavigationContainer, Toast 설정, StatusBar 설정
+  - BootSplash 초기화 후 숨김 처리
+
+- 네비게이션
+  - RootNavigation: `useAuth().isLogin` 여부로 분기
+    - 비로그인: AuthNavigation(Stack) → AuthHome, Login, Signup, KakaoLogin
+    - 로그인: DrawerNavigation → MapStack, FeedStack, Calendar, Setting
+
+- 데이터/네트워크
+  - React Query: `src/api/queryClient.ts` 기본옵션(`retry=false`, `staleTime=60s`)
+  - Axios: `src/api/axios.ts`에서 baseURL 관리(환경/에뮬레이터 고려), 공통 헤더는 `utils/header.ts`
+  - API 모듈: `src/api/auth.ts`, `post.ts`, `marker.ts`, `image.ts`
+
+- 인증
+  - 로그인 시 AccessToken을 헤더에 세팅, RefreshToken은 암호 저장(`utils/encryptStorage.ts`)
+  - `useGetRefreshToken`으로 주기적 access 갱신, 로그아웃 시 헤더/스토리지 정리
+
+- 프레젠테이션/테마
+  - 공통 컴포넌트: `src/components/common/*`(버튼/인풋/에러경계/이미지 등)
+  - 테마: `useThemeStorage` + `constants/colors.ts` 기반 라이트/다크 일관 적용
+
+- 에러/로딩
+  - 전역 에러 경계: `RetryErrorBoundary`
+  - 요청 단위 에러는 React Query 옵션과 토스트로 안내
+
+- 환경/네이티브 설정
+  - `config.ts`의 환경값, iOS/Android에서 BootSplash 및 Google Maps 키 설정
+
+## Folder Structure (폴더 구조)
+
+```text
+src/
+  api/
+    axios.ts            # Axios 인스턴스 및 baseURL 관리
+    auth.ts             # 인증 API (로그인/프로필/토큰 갱신)
+    image.ts            # 이미지 업로드 API
+    marker.ts           # 지도 마커 API
+    post.ts             # 피드/게시물 API
+    queryClient.ts      # React Query 클라이언트 설정
+  assets/               # 앱 내부에서 사용하는 이미지/리소스
+  components/
+    common/             # 공통 UI 컴포넌트(버튼/인풋/에러경계 등)
+    feed/               # 피드 관련 컴포넌트
+    map/                # 지도/마커 관련 컴포넌트
+    post/               # 게시물 작성 관련 컴포넌트
+    calendar/           # 캘린더 관련 컴포넌트
+    setting/            # 설정 화면 관련 컴포넌트
+  constants/            # 색상/키/문구/숫자 상수
+  hooks/
+    queries/            # API 연동용 커스텀 훅(React Query)
+    useForm.ts          # 폼 상태 및 바인딩 유틸
+    usePermission.ts    # 권한 처리 훅
+    useUserLocation.ts  # 사용자 위치 획득 훅
+    ...                 # 모달/이미지/검색 등 기타 훅
+  navigations/          # 루트/스택/드로어 네비게이션 정의
+  screens/              # 실제 화면 단위 컴포넌트
+    auth/               # 로그인/회원가입/카카오 로그인 등
+    feed/               # 피드 목록/상세/즐겨찾기/이미지 줌 등
+    calendar/
+    map/
+    setting/
+  store/                # 전역 상태(필터/위치/테마 등)
+  types/                # 도메인/네비/환경 타입 정의
+  utils/                # 날짜/검증/이미지/헤더/스토리지 유틸
+```
+
+> 위 구조는 실제 레포를 요약한 것이며, 세부 항목은 프로젝트 발전에 따라 조정될 수 있습니다.

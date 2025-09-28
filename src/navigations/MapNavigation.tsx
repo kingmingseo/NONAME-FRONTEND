@@ -5,8 +5,9 @@ import AddLocationScreen from '@/screens/map/AddLocationScreen';
 import SearchLocationScreen from '@/screens/map/SearchLocationScreen';
 import {colors} from '@/constants/colors';
 import useThemeStorage from '@/hooks/useThemeStorage';
+import {MapStackParamList} from '@/types/navigation';
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<MapStackParamList>();
 
 export function MapStack() {
   const {theme} = useThemeStorage();
@@ -25,13 +26,13 @@ export function MapStack() {
           fontSize: 16,
         },
       }}>
-      <Stack.Screen 
-        name="MapHome" 
+      <Stack.Screen
+        name="MapHome"
         component={MapHomeScreen}
-        options={{ headerShown: false }}
+        options={{headerShown: false}}
       />
-      <Stack.Screen 
-        name="AddLocation" 
+      <Stack.Screen
+        name="AddLocation"
         component={AddLocationScreen}
         options={{
           title: '장소 추가',
@@ -40,8 +41,8 @@ export function MapStack() {
           },
         }}
       />
-      <Stack.Screen 
-        name="SearchLocation" 
+      <Stack.Screen
+        name="SearchLocation"
         component={SearchLocationScreen}
         options={{
           presentation: 'modal',

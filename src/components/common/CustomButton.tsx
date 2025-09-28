@@ -10,7 +10,7 @@ import {
 import React from 'react';
 import {colors} from '@/constants/colors';
 import useThemeStorage from '@/hooks/useThemeStorage';
-import { Theme } from '@/store/theme';
+import {Theme} from '@/store/theme';
 
 interface CustomButtonProps extends PressableProps {
   label: string | React.ReactNode;
@@ -30,7 +30,7 @@ const CustomButton = ({
 }: CustomButtonProps) => {
   const {theme} = useThemeStorage();
   const styles = styling(theme);
-  
+
   return (
     <Pressable
       style={({pressed}) => [

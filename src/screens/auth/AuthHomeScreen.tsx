@@ -6,7 +6,7 @@ import {AuthStackParamList} from '@/types/navigation';
 import CustomButton from '@/components/common/CustomButton';
 import {colors} from '@/constants/colors';
 import useThemeStorage from '@/hooks/useThemeStorage';
-import { Theme } from '@/store/theme';
+import {Theme} from '@/store/theme';
 
 type Navigation = StackNavigationProp<AuthStackParamList>;
 
@@ -14,7 +14,7 @@ const AuthHomeScreen = () => {
   const navigation = useNavigation<Navigation>();
   const {theme} = useThemeStorage();
   const styles = styling(theme);
-  
+
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
@@ -26,7 +26,7 @@ const AuthHomeScreen = () => {
       </View>
       <View style={styles.buttonContainer}>
         <CustomButton
-          style = {styles.kakaoButtonContainer}
+          style={styles.kakaoButtonContainer}
           label="카카오 로그인"
           textStyle={styles.kakaoButtonText}
           onPress={() => navigation.navigate('KakaoLogin')}
@@ -72,7 +72,7 @@ const styling = (theme: Theme) =>
       color: colors[theme].BLACK,
     },
     kakaoButtonContainer: {
-      backgroundColor: '#fee503'
+      backgroundColor: '#fee503',
     },
     kakaoButtonText: {
       color: '#181600',

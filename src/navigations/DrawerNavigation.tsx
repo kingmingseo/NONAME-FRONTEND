@@ -8,12 +8,16 @@ import {colors} from '@/constants/colors';
 import CustomDrawerContent from '@/components/common/CustomDrawerContent';
 import {MainDrawerParamList} from '@/types/navigation';
 import FontAwesome6 from '@react-native-vector-icons/fontawesome6';
-import { SettingStack } from './SettingNavigation';
+import {SettingStack} from './SettingNavigation';
 import useThemeStorage from '@/hooks/useThemeStorage';
 
 type DrawerIconName = 'map' | 'book' | 'calendar';
 
-function DrawerIcons(routeName: keyof MainDrawerParamList, focused: boolean, theme: 'light' | 'dark') {
+function DrawerIcons(
+  routeName: keyof MainDrawerParamList,
+  focused: boolean,
+  theme: 'light' | 'dark',
+) {
   let iconName: DrawerIconName = 'map';
 
   switch (routeName) {
